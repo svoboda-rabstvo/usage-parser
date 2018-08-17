@@ -41,14 +41,16 @@
             "--stdin": {
                "id": "linterhub:stdin",
                "type": "string",
-               "description": "Lint code provided on <STDIN> - (default is false)",
-               "default": "false"
+               "description": "Lint code provided on <STDIN> - (default is 'false\") [deprecated]",
+               "default": false,
+               "usage": false
             },
             "--SPACE": {
                "id": "args:--SPACE",
-               "type": "string",
-               "description": "USE SPACE INDENT INSTEAD OF TABS DEFAULTS TO 2",
-               "default": "2"
+               "type": "number",
+               "description": "(Deprecated) USE SPACE INDENT INSTEAD OF TABS DEFAULTS TO 2",
+               "default": 2,
+               "usage": false
             },
             "--parser": {
                "id": "args:--parser",
@@ -158,6 +160,18 @@
                "id": "args:--spaces",
                "type": "string",
                "description": "Spaces"
+            },
+            "--option4": {
+               "id": "--option4",
+               "type": null,
+               "description": "Automatically fix problems. [default: true]",
+               "default": true
+            },
+            "--option5": {
+               "id": "--option5",
+               "type": null,
+               "description": "Automatically fix problems. [default: false]",
+               "default": false
             },
             "--ignore": {
                "id": "--ignore",

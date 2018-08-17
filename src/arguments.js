@@ -17,6 +17,8 @@ const getArgumentObject = (object, context) => {
         description: unifyDescription(object.description.trim()),
     };
 
+    argument.usage = getValueByRegexp(
+        argument.description, context.regexp.usage) ? false : true;
     argument.isFlag = identifyIsFlag(object.arg, argument);
     argument.type = getPropertyType(object.arg, argument, context);
     return argument;
@@ -30,7 +32,7 @@ const getArgumentObject = (object, context) => {
 const unifyDescription = (description) => {
     if (typeof description !== 'string' && description.length === 0) return '';
     const result = description.charAt(0).toUpperCase() + description.slice(1);
-    return removeExtraSpaces(removeDotAtTheEnd(result));
+    return removeExtraSpaces(removeCharAtTheEnd(result, ['.']));
 };
 
 /**
@@ -40,8 +42,16 @@ const unifyDescription = (description) => {
  * @return {string} - default value
  */
 const getDefaultValue = (description, regexp) => {
-    const result = getValueByRegexp(description, regexp);
-    return result ? removeDotAtTheEnd(result[5].trim()) : null;
+    let result = getValueByRegexp(description, regexp);
+    if (result) {
+        result = removeCharAtBegin(result[5].trim(), ['\'', '\"', ',']);
+        result = removeCharAtTheEnd(result, ['\'', '\"', ',', '.']);
+        if (result === 'false') result = false;
+        else if (result === 'true') result = true;
+        else if (Number(result)) result = Number(result);
+        return result;
+    }
+    return null;
 };
 
 /**
@@ -76,7 +86,7 @@ const getDelimiterValue = (string, regexp) => {
  */
 const getPropertyName = (string, regexp) => {
     const result = getValueByRegexp(string, regexp);
-    return result ? removeComaAtTheEnd(result[0].trim()) : null;
+    return result ? removeCharAtTheEnd(result[2].trim(), [',']) : null;
 };
 
 /**
@@ -85,7 +95,9 @@ const getPropertyName = (string, regexp) => {
  * @return {boolean} - result of check
  */
 const isValueBoolean = (string) => {
-    return string && !(string === 'true' || string === 'false' ) ? false : true;
+    return string !== null &&
+    !(string === ('true'|'false') || typeof string === 'boolean') ?
+        false : true;
 };
 
 /**
@@ -98,12 +110,13 @@ const isValueBoolean = (string) => {
 const getPropertyType = (string, argument, context) => {
     const typesDictionary = context.get.template.typesDictionary();
     const argumentAddition = removeExtraArgumentNames(string, argument);
+    if (typeof argument.defaultValue === 'number') return 'number';
+    if (typeof argument.defaultValue === 'boolean') return 'boolean';
     const result = Object.keys(typesDictionary)
         .find((type) => typesDictionary[type]
             .find((alias) => {
                 return argumentAddition.toLowerCase().indexOf(alias) !== -1;
             }));
-
     return result ? result : context.get.template.option().type;
 };
 
@@ -150,23 +163,14 @@ const checkFlagsByExamples = (section, context) => {
 };
 
 /**
- * Remove extra coma from string
- * @param {string} string - any string
- * @return {string} - result string
- */
-const removeExtraComa = (string) => {
-    return removeChar(string, [',']).trim();
-};
-/**
  * Remove argument names from string
  * @param {string} string - any string
  * @param {argument} argument - argument object with description, names, etc.
  * @return {string} - result string
  */
 const removeExtraArgumentNames = (string, argument) => {
-    return removeChar(
-        removeExtraComa(string),
-        [argument.longName, argument.shortName]).trim();
+    return removeChar(string,
+        [',', argument.longName, argument.shortName]).trim();
 };
 
 /**
@@ -179,33 +183,32 @@ const removeExtraSpaces = (string) => {
 };
 
 /**
-* Remove extra coma from the end of line
-* @param {string} string - any string
-* @return {string} - result string
-*/
-const removeComaAtTheEnd = (string) => {
-    return removeCharAtTheEnd(string, ',');
+ * Delete chars at the end of string
+ * @param {string} string - source string
+ * @param {array} array - char for remove
+ * @return {*} - string without chars
+ */
+const removeCharAtTheEnd = (string, array) => {
+    let result = string;
+    array.map((char) => {
+        result = result.charAt(result.length - 1) === char ?
+            result.slice(0, result.length - 1) : result;
+    });
+    return result;
 };
 
 /**
-* Remove extra dot from the end of line
-* @param {string} string - any string
-* @return {string} - result string
-*/
-const removeDotAtTheEnd = (string) => {
-    return removeCharAtTheEnd(string, '.');
-};
-
-
-/**
-* Delete char at the end of string
+* Delete chars at the beggining and at the end of string
 * @param {string} string - source string
-* @param {char} char - char for remove
-* @return {*} - string without dot at the end
+* @param {array} array - char for remove
+* @return {*} - string without chars
 */
-const removeCharAtTheEnd = (string, char) => {
-    return string.charAt(string.length - 1) === char ?
-        string.slice(0, string.length - 1) : string;
+const removeCharAtBegin = (string, array) => {
+    let result = string;
+    array.map((char) => {
+        result = result.charAt(0) === char ? result.slice(1) : result;
+    });
+    return result;
 };
 
 /**
