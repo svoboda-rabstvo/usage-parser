@@ -7,14 +7,14 @@
          "$ref": "#/definitions/arguments"
       }
    ],
-   "delimiter": "=",
+   "delimiter": " ",
    "definitions": {
       "arguments": {
          "type": "object",
          "properties": {
             "--extension": {
-               "id": "args:--extension",
-               "type": "string",
+               "id": "--extension",
+               "type": null,
                "description": "Additional extension to lint [Can be set multiple times]"
             },
             "--no-esnext": {
@@ -32,6 +32,16 @@
                "type": "string",
                "description": "Working directory for files"
             },
+            "--ignore": {
+                "id": "--ignore",
+                "type": null,
+                "description": "Additional paths to ignore [Can be set multiple times]"
+             },
+             "-i": {
+                "id": "-i",
+                "type": null,
+                "description": "Additional paths to ignore [Can be set multiple times]"
+             },
             "--ext": {
                "id": "args:--ext",
                "type": "string",
@@ -42,14 +52,14 @@
                "id": "linterhub:stdin",
                "type": "string",
                "description": "Lint code provided on <STDIN> - (default is 'false\") [deprecated]",
-               "default": false,
+               "default": "false",
                "usage": false
             },
             "--SPACE": {
                "id": "args:--SPACE",
                "type": "number",
                "description": "(Deprecated) USE SPACE INDENT INSTEAD OF TABS DEFAULTS TO 2",
-               "default": 2,
+               "default": "2",
                "usage": false
             },
             "--parser": {
@@ -91,7 +101,8 @@
                    "csv",
                    "jslint",
                    "checkstyle",
-                   "raw"
+                   "raw",
+                   "module"
                 ]
             },
             "--option1": {
@@ -110,6 +121,7 @@
                 "type": "string",
                 "description": "Custom reporter (<PATH>|jslint|checkstyle|unix)",
                 "enum": [
+                    "PATH",
                    "jslint",
                    "checkstyle",
                    "unix"
@@ -123,7 +135,8 @@
                    "scss",
                    "sass",
                    "less",
-                   "sugarss"
+                   "sugarss",
+                   "path"
                 ]
             },
             "--option3": {
@@ -139,7 +152,11 @@
             "--config": {
                 "id": "linterhub:config",
                 "type": "string",
-                "description": "Path to configuration file <file|path>"
+                "description": "Path to configuration file <file|path>",
+                "enum": [
+                    "file",
+                    "path"
+                ]
             },
             "--error-filter": {
                 "id": "args:--error-filter",
@@ -157,41 +174,26 @@
                 "description": "Specify parser options"
             },
             "--spaces": {
-               "id": "args:--spaces",
-               "type": "string",
+               "id": "--spaces",
+               "type": null,
                "description": "Spaces"
             },
             "--option4": {
                "id": "--option4",
                "type": null,
                "description": "Automatically fix problems. [default: true]",
-               "default": true
+               "default": "true"
             },
             "--option5": {
                "id": "--option5",
                "type": null,
                "description": "Automatically fix problems. [default: false]",
-               "default": false
+               "default": "false"
             },
             "--option6": {
                "id": "--option6",
                "type": null,
                "description": "Option 6. Defaults to []"
-            },
-            "--ignore": {
-               "id": "--ignore",
-               "type": null,
-               "description": "Additional paths to ignore [Can be set multiple times]"
-            },
-            "-i": {
-               "id": "-i",
-               "type": null,
-               "description": "Additional paths to ignore [Can be set multiple times]"
-            },
-            "": {
-               "id": "linterhub:path",
-               "type": "string",
-               "description": "Path to file or folder to analyze"
             }
          }
       },

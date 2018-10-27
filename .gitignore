@@ -1,4 +1,6 @@
 /build/
 /dist/
 /node_modules/
+/src_old/
+/test_old/
 package-lock.json

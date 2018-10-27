@@ -1,17 +1,23 @@
 {
-    "spellright.language": "en",
+    "spellright.language": [
+        "en",
+        "ru"
+    ],
     "spellright.documentTypes": [
         "markdown",
         "latex",
         "plaintext",
         "json",
-        "javascript"
+        "javascript",
+        "typescript"
     ],
     "spellright.ignoreFiles": [
         "**/.gitignore",
         "**/.spellignore",
         "**/package.lock.json",
-        ".vscode/**/**"
+        ".vscode/**/**",
+        "**/node_modules/**",
+        "**/node_modules/typescript/**"
     ],
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
