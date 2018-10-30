@@ -1,36 +1,38 @@
 import mocha from 'mocha';
 import { expect, assert } from 'chai';
 import Section from './../src/models/section';
-import Arg  from './../src/models/arg';
 
 describe('Section', () => {
-    const lines = [
-        '-i  Description',
-        '--a-arg  Description'
-    ];
-
-    describe('with name', () => {
-        const name = 'Options';
-        const section = Section.create(name, lines);
-
-        it('name', () => { assert.equal(section.name, name); });
-        it('args', () => {
-            assert.deepEqual(section.args, [
-                Arg.create(lines[0]),
-                Arg.create(lines[1]),
-            ]);
+    describe('name', () => {
+        const lines = [
+            '-i  Description',
+            '--a-arg  Description'
+        ];
+        it('exist', () => {
+            const name = 'Options';
+            const section = Section.create(name, lines);
+            assert.equal(section.name, name);
+        });
+        it('undefined', () => {
+            const section = Section.create(undefined, lines);
+            assert.equal(section.name, undefined);
         });
     });
 
-    describe('without name', () => {
-        const section = Section.create(undefined, lines);
-
-        it('name', () => { assert.equal(section.name, undefined); });
-        it('args', () => {
-            assert.deepEqual(section.args, [
-                Arg.create(lines[0]),
-                Arg.create(lines[1]),
-            ]);
+    describe('arguments', () => {
+        it('exist', () => {
+            const lines = [
+                '-i  Description',
+            ];
+            const section = Section.create(undefined, lines);
+            assert.deepEqual(section.args.length, 1);
+        });
+        it('undefined', () => {
+            const lines = [
+                'Description',
+            ];
+            const section = Section.create(undefined, lines);
+            assert.deepEqual(section.args.length, 0);
         });
     });
 });

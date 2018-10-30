@@ -13,7 +13,7 @@ class Section {
      * Array of arguments
      * @type {?Arg[]}
      */
-    args?: Arg[] = undefined;
+    args: Arg[];
 
     /**
      * @constructor
@@ -21,16 +21,15 @@ class Section {
      * @param {Arg[] | undefined} [args="undefined"] - array of arguments
      * @param {string[] | undefined} [lines="undefined"] - array lines of section
      */
-    constructor(name: string | undefined, args: Arg[] | undefined = undefined) {
+    constructor(name: string | undefined, args: Arg[]) {
         this.name = name;
         this.args = args;
     }
 
-    static create(name: string | undefined, lines: string[] | undefined = undefined) : Section {
-        const args = lines ? lines
+    static create(name: string | undefined, lines: string[]) : Section {
+        const args = lines
             .map((line) => Arg.create(line))
-            .filter((arg) => !(arg.longName === undefined && arg.shortName === undefined))
-                : undefined;
+            .filter((arg) => !(arg.longName === undefined && arg.shortName === undefined));
         return new Section(name, args);
     }
 }
