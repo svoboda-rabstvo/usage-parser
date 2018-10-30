@@ -1,29 +1,8 @@
 import Section from './section';
+import Group from './group';
 import config from './../config';
 import './../extensions/string';
-import Arg from './arg';
 
-class Group {
-    name: string | undefined;
-    lines: string[];
-    constructor(name : string | undefined, lines: string[] = []){
-        this.name = name;
-        this.lines = lines;
-    }
-
-    addLine(line: string | undefined) : Group {
-        if (!line) { return this; }
-        const readyLine = line.includes(config.reg.arg.start) ?
-            line : this.lines.pop() + config.settings.line.join + line;
-        this.lines.push(readyLine);
-        return this;
-    }
-
-    static create(name: string | undefined = undefined, line : string | undefined = undefined) : Group {
-        const group = new Group(name).addLine(line);
-        return group;
-    }
-}
 /**
  * Global Object which describe arguments with properties and sections for they
  */
