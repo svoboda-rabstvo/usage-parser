@@ -19,6 +19,6 @@
     },
     "include": [
         "src/**/*",
-        "typings/usage-parser/index.d.ts"
+        "typings/usage-parser/index.d.ts", "test/integration.test-old.ts", "test/client.test.ts"
     ]
 }

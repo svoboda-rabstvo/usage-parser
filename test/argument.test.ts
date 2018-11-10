@@ -1,43 +1,22 @@
 import mocha from 'mocha';
 import { expect, assert } from 'chai';
-import Arg from './../src/models/arg';
-import ArgType from './../src/types/argTypes';
+import {Arg} from './../src/models/arg';
+import {ArgType} from './../src/types/argTypes';
+import * as sinon from 'sinon';
+
 
 describe('Arguments', () => {
-    describe('names', () => {
-        //TODO: на каждое ветвление создать отдельный тест: coverage tests
-        it('one by one', () => {
-            // метод create: протестировать на trimEnd true and false:
-            const input = '--arg, -i';
-            const argument = Arg.create(input);
-            assert.equal(argument.longName, '--arg');
-            assert.equal(argument.shortName, '-i');
-        });
-        it('in description', () => {
-            const input = '-i, --arg-filter [String]   description test --some';
-            const argument = Arg.create(input);
-            assert.equal(argument.longName, '--arg-filter');
-        });
+    it('names', () => {
+        const argsLine = '--arg, -i';
+        const argument = new Arg(argsLine, String.Empty);
+        assert.equal(argument.longName, '--arg');
+        assert.equal(argument.shortName, '-i');
     });
 
     describe('values', () => {
-        it('one', () => {
-            const input = '[one]';
-            const argument = Arg.create(input);
-            assert.equal(argument.values, undefined);
-        });
-        it('many', () => {
-            const input = '<one|two|three>';
-            const argument = Arg.create(input);
-            assert.deepEqual(argument.values, [
-                'one',
-                'two',
-                'three'
-            ]);
-        });
-        it('full', () => {
-            const input = '-i   Description <one|2 or false, four]';
-            const argument = Arg.create(input);
+        it('many values', () => {
+            const descLine = 'Description <one|2 or false, four]';
+            const argument = new Arg(String.Empty, descLine);
             assert.deepEqual(argument.values, [
                 'one',
                 '2',
@@ -45,112 +24,136 @@ describe('Arguments', () => {
                 'four'
             ]);
         });
+        it('undefined', () => {
+            const descLine = '[one]';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.values, undefined);
+        });
     });
 
     describe('default', () => {
         it('string', () => {
-            const input = '[default: .js]';
-            const argument = Arg.create(input);
+            const descLine = '[default: .js]';
+            const argument = new Arg(String.Empty, descLine);
             assert.equal(argument.default, '.js');
         });
         it('number', () => {
-            const input = 'Defaults to 2.';
-            const argument = Arg.create(input);
+            const descLine = 'Defaults to 2';
+            const argument = new Arg(String.Empty, descLine);
             assert.equal(argument.default, '2');
         });
         it('boolean', () => {
-            const input = '(default is \'false")';
-            const argument = Arg.create(input);
+            const descLine = '(default is \'false")';
+            const argument = new Arg(String.Empty, descLine);
             assert.equal(argument.default, 'false');
         });
-        it('full', () => {
-            const input = '--arg    Description default to never';
-            const argument = Arg.create(input);
-            assert.equal(argument.default, 'never');
-        });
-    });
-
-    describe('description', () => {
-        it('unify', () => {
-            const input = '--arg   description.        ';
-            const argument = Arg.create(input);
-            assert.equal(argument.description, 'Description');
-        });
-    });
-
-    describe('type', () => {
-        it('by default as string', () => {
-            const input = 'default to .js';
-            const argument = Arg.create(input);
-            assert.equal(argument.type, ArgType.string);
-        });
-        it('by default as number', () => {
-            const input = 'default to 2';
-            const argument = Arg.create(input);
-            assert.equal(argument.type, ArgType.number);
-        });
-        it('by values', () => {
-            const input = '<one|two|three>';
-            const argument = Arg.create(input);
-            assert.equal(argument.type, ArgType.string);
-        });
-        it('by property', () => {
-            const input = '--arg [int]   Description';
-            const argument = Arg.create(input);
-            assert.equal(argument.type, ArgType.number);
-        });
-    });
-
-    describe('flag', () => {
-        it('type boolean', () => {
-            const input = '--arg [int]   Description default to false';
-            const argument = Arg.create(input);
-            assert.equal(argument.hasValue, true);
-        });
-        it('type undefined', () => {
-            const input = '--arg  Description';
-            const argument = Arg.create(input);
-            assert.equal(argument.hasValue, true);
-        });
-    });
-
-    describe('delimiter', () => {
-        it('space', () => {
-            const input = '--arg String';
-            const argument = Arg.create(input);
-            assert.equal(argument.delimiter, ' ');
-        });
-        it('sign', () => {
-            const input = '--arg=String';
-            const argument = Arg.create(input);
-            assert.equal(argument.delimiter, '=');
-        });
-    });
-
-    describe('deprecated', () => {
-        it('exist', () => {
-            const input = '[deprecated]';
-            const argument = Arg.create(input);
-            assert.equal(argument.deprecated, true);
-        });
-        it('uppercase', () => {
-            const input = '(DEPRECATED)';
-            const argument = Arg.create(input);
-            assert.equal(argument.deprecated, true);
+        it('undefined', () => {
+            const descLine = 'Description';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.default, undefined);
         });
     });
 
     describe('required', () => {
-        it('exist', () => {
-            const input ='--arg *required*';
-            const argument = Arg.create(input);
+        it('true', () => {
+            const argsLine ='--arg *required*';
+            const argument = new Arg(argsLine, String.Empty);
             assert.equal(argument.required, true);
+        });
+        it('undefined', () => {
+            const argsLine ='--arg';
+            const argument = new Arg(argsLine, String.Empty);
+            assert.equal(argument.required, undefined);
+        });
+    });
+
+    describe('delimiter', () => {
+        it('equal sign', () => {
+            const argsLine = '--arg=String';
+            const argument = new Arg(argsLine, String.Empty);
+            assert.equal(argument.delimiter, '=');
+        });
+        it('undefined', () => {
+            const argsLine = '--arg';
+            const argument = new Arg(argsLine, String.Empty);
+            assert.equal(argument.delimiter, undefined);
+        });
+    });
+
+    describe('deprecated', () => {
+        it('true', () => {
+            const descLine = '[deprecated]';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.deprecated, true);
+        });
+        it('undefined', () => {
+            const descLine = 'Description';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.deprecated, undefined);
+        });
+    });
+
+    describe('type', () => {
+        it('string', () => {
+            const descLine = 'default to .js';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.type, ArgType.string);
+        });
+        it('number', () => {
+            const descLine = 'default to 2';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.type, ArgType.number);
+        });
+        it('boolean', () => {
+            const descLine = 'default to true';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.type, ArgType.boolean);
+        });
+        it('object', () => {
+            const descLine = 'default to Object';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.type, ArgType.object);
+        });
+        it('array', () => {
+            const descLine = 'default to Array';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.type, ArgType.array);
+        });
+        it('string if argument has values', () => {
+            const descLine = '<one|two|three>';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.type, ArgType.string);
+        });
+        it('undefined', () => {
+            const descLine = 'default to';
+            const argument = new Arg(String.Empty, descLine);
+            assert.equal(argument.type, ArgType.undefined);
+        });
+    });
+
+    describe('flag', () => {
+        it('if type boolean', () => {
+            const argsLine = '--arg [int]';
+            const descLine = 'Description default to false';
+            const argument = new Arg(argsLine, descLine);
+            assert.equal(argument.hasValue, true);
+        });
+        it('if type undefined', () => {
+            const argsLine = '--arg';
+            const argument = new Arg(argsLine, String.Empty);
+            assert.equal(argument.hasValue, true);
+        });
+        it('undefined', () => {
+            const argsLine = '--arg [int]';
+            const argument = new Arg(argsLine, String.Empty);
+            assert.equal(argument.hasValue, undefined);
         });
     });
 
     describe('full', () => {
-        const input = '--arg, -i *required* [int]    description default to 8, <one|two|three|four> DePReCATeD .           ';
-        const argument = Arg.create(input);
+        const argsLine = '--arg, -i *required* [int]';
+        const descLine = 'description default to 8, <one|two|three|four> DePReCATeD.';
+        const argument = new Arg(argsLine, descLine);
 
         it('type', () => { assert.equal(argument.type, ArgType.string); });
         it('values', () => { assert.deepEqual(argument.values, ['one', 'two','three','four']); });
@@ -161,6 +164,6 @@ describe('Arguments', () => {
         it('short name', () => { assert.equal(argument.shortName, '-i'); });
         it('deprecated', () => { assert.equal(argument.deprecated, true); });
         it('has values', () => { assert.equal(argument.hasValue, undefined); });
-        it('description', () => { assert.equal(argument.description, 'Description default to 8, <one|two|three|four> DePReCATeD'); });
+        it('description', () => { assert.equal(argument.description, 'description default to 8, <one|two|three|four> DePReCATeD.'); });
     });
 });

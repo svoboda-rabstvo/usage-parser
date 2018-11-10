@@ -14,17 +14,17 @@
          "properties": {
             "--extension": {
                "id": "--extension",
-               "type": null,
+               "type": "undefined",
                "description": "Additional extension to lint [Can be set multiple times]"
             },
             "--no-esnext": {
                "id": "--no-esnext",
-               "type": null,
+               "type": "undefined",
                "description": "Don't enforce ES2015+ rules"
             },
             "--prettier": {
                "id": "--prettier",
-               "type": null,
+               "type": "undefined",
                "description": "Conform to Prettier code style"
             },
             "--cwd": {
@@ -34,12 +34,12 @@
             },
             "--ignore": {
                 "id": "--ignore",
-                "type": null,
+                "type": "undefined",
                 "description": "Additional paths to ignore [Can be set multiple times]"
              },
              "-i": {
                 "id": "-i",
-                "type": null,
+                "type": "undefined",
                 "description": "Additional paths to ignore [Can be set multiple times]"
              },
             "--ext": {
@@ -175,24 +175,24 @@
             },
             "--spaces": {
                "id": "--spaces",
-               "type": null,
+               "type": "undefined",
                "description": "Spaces"
             },
             "--option4": {
                "id": "--option4",
-               "type": null,
+               "type": "boolean",
                "description": "Automatically fix problems. [default: true]",
                "default": "true"
             },
             "--option5": {
                "id": "--option5",
-               "type": null,
+               "type": "boolean",
                "description": "Automatically fix problems. [default: false]",
                "default": "false"
             },
             "--option6": {
                "id": "--option6",
-               "type": null,
+               "type": "undefined",
                "description": "Option 6. Defaults to []"
             }
          }

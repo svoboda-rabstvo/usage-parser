@@ -1,14 +1,39 @@
 import * as _ from 'lodash';
-import Usage from '../models/usage';
-import Arg from '../models/arg';
+import {Usage} from '../models/usage';
+import {Arg} from '../models/arg';
+import {Section} from '../models/section';
 
+/**
+ * 8
+ */
 class ArguemntConvertor {
+    /**
+     * 1
+     */
     description: string | undefined;
+    /**
+     * 2
+     */
     id: string | undefined;
+    /**
+     * 3
+     */
     enum?: string[];
+    /**
+     * 4
+     */
     type?: string | null;
+    /**
+     * 5
+     */
     default?: string;
+    /**
+     * 6
+     */
     usage?: boolean;
+    /**
+     * 7
+     */
     constructor(id: string | undefined, type: string | undefined, description: string | undefined){
         this.id = id;
         this.type = typeof type === 'undefined' ? null : type;
@@ -17,12 +42,12 @@ class ArguemntConvertor {
 }
 const schema = require('./args.json');
 
-const convert = (usage: Usage) => {
+export const convert = (usage: Usage | undefined) => {
     const template = _.cloneDeep(schema);
     const properties = template.definitions.arguments.properties;
-    template.delimiter = usage.delimiter ? usage.delimiter : '=';
-    if (usage.sections) {
-        usage.sections.map((section: any) => {
+    template.delimiter = usage!.delimiter ? usage!.delimiter : '=';
+    if (usage!.sections) {
+        usage!.sections!.map((section: Section) => {
             section.args.map((arg: Arg) => {
                 const name = typeof arg.longName !== 'undefined' ? arg.longName : arg.shortName;
                 const arguemnt = new ArguemntConvertor(name, arg.type, arg.description);
@@ -68,5 +93,3 @@ const convert = (usage: Usage) => {
 
     return template;
 };
-
-export default convert;

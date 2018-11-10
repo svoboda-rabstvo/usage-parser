@@ -1,29 +1,29 @@
 interface String {
     /**
-     * Unify string. Use trim and create first letter in uppercase.
-     * @return - unification string
+     * Unify string. Use trim and create first letter to uppercase.
+     * @return {string} - The unified string
      */
     unify() : string;
 
     /**
      * Try convert string to number or boolean. Return value in that type.
-     * @return - value in correct type: number, boolean or string
+     * @return {boolean | number | string} - The value in correct type: number, boolean or string
      */
-    convert() : boolean | number | String;
+    convert() : boolean | number | string;
 
     /**
-     * Trim end
-     * @param s - string
-     * @return {string} - string without
+     * Trim last char of string if it exist
+     * @param {string} value - The char for trim
+     * @return {string} - The string without char of the end of line
      */
-    trimEnd(s: string) : string;
+    trimEnd(value: string) : string;
 
     /**
-     * Run RegExp for line and return first match if it exist.
-     * @param s - String for search
-     * @return {string | undefined } First match in string format of undefined
+     * Run RegExp for line and return first match if it exist
+     * @param {string | undefined} line - The string for searching
+     * @return {string | undefined} - The first match of results, default is `undefined`
      */
-    firstMatch(s: string | undefined): string | undefined;
+    firstMatch(line: string | undefined): string | undefined;
 }
 
 interface StringConstructor {

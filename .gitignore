@@ -3,4 +3,6 @@
 /node_modules/
 /src_old/
 /test_old/
+.nyc_output/
+/coverage/
 package-lock.json

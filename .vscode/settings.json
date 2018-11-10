@@ -29,8 +29,10 @@
         ".git/**/**": true
     },
     "javascript.validate.enable": false,
-    "eslint.enable": true,
-    "eslint.provideLintTask": true,
+    "tslint.enable": true,
+    "tslint.run": "onSave",
+    "tslint.alwaysShowRuleFailuresAsWarnings": true,
+    "tslint.configFile": "tslint.json",
     "files.exclude": {
         "**/.git": false
     }

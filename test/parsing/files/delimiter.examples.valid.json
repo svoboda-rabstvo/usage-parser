@@ -14,7 +14,7 @@
          "properties": {
             "--ignore": {
                "id": "--ignore",
-               "type": null,
+               "type": "undefined",
                "description": "Additional paths to ignore [Can be set multiple times]"
             }
          }

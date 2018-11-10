@@ -19,7 +19,7 @@
                 },
                 "--quiet": {
                     "id": "--quiet",
-                    "type": null,
+                    "type": "undefined",
                     "description": "Reduce output to errors only"
                 },
                 "--version": {
@@ -39,7 +39,7 @@
                 },
                 "--recurse": {
                     "id": "--recurse",
-                    "type": null,
+                    "type": "undefined",
                     "description": "Recursively search directories"
                 },
                 "--jshint": {
@@ -64,7 +64,7 @@
                 },
                 "--noempty": {
                     "id": "--noempty",
-                    "type": null,
+                    "type": "undefined",
                     "description": "Skips empty lines from line count"
                 }
             }

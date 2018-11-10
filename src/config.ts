@@ -1,4 +1,4 @@
-const config  = {
+export const config  = {
     settings: {
         trimEnd: '.',
         blackList: {
@@ -53,5 +53,3 @@ const config  = {
         ],
     },
 };
-
-export default config;
