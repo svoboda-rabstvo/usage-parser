@@ -19,7 +19,7 @@
         "test": "nyc mocha -r ts-node/register ./test/*.test.ts",
         "doc": "jsdoc2md --files ./src/**/*.ts --configure ./config/jsdoc2md.json > ./doc/API.md",
         "semantic-release": "semantic-release",
-        "log": "type package.json"
+        "log": "cat package.json"
     },
     "files": [
         "src/",

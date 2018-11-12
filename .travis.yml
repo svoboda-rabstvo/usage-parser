@@ -9,6 +9,7 @@ jobs:
     - stage: tests
       node_js: "10"
       script:
+        - npm run log
         - npm run lint
         - npm run test
         - npm run build
