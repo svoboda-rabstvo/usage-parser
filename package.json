@@ -6,7 +6,10 @@
     "license": "MIT",
     "repository": "linterhub/usage-parser",
     "bugs": "https://github.com/linterhub/usage-parser/issues",
-
+    "bin": {
+        "usage-parser": "bin.js"
+    },
+    "main": "./dist/index.js",
     "scripts": {
         "jsdoc2md": "./node_modules/.bin/jsdoc2md",
         "ts-node": "./node_modules/mocha/bin/ts-node",
@@ -16,10 +19,10 @@
         "test": "nyc mocha -r ts-node/register ./test/*.test.ts",
         "doc": "jsdoc2md --files ./src/**/*.ts --configure ./config/jsdoc2md.json > ./doc/API.md",
         "semantic-release": "semantic-release",
-        "log": "cat package.json"
+        "log": "npm ls"
     },
     "files": [
-        "src/",
+        "dist/",
         "README.md"
     ],
     "husky": {
