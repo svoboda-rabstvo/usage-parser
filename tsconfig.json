@@ -16,6 +16,10 @@
         "esModuleInterop": true
     },
     "include": [
-        "src/**/*", "typings/usage-parser/index.d.ts"
-    ]
+        "src/**/*",
+        "typings/**/*"
+    ],
+    "exclude": [
+        "./test/**/*"
+    ],
 }
