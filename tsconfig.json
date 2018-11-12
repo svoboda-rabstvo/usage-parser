@@ -2,11 +2,9 @@
     "compilerOptions": {
         "target": "ES6",
         "module": "commonjs",
-        "lib": ["dom", "es6"],
         "declaration": true,
         "outDir": "./dist",
         "strict": true,
-        "sourceMap": true,
         "moduleResolution": "node",
         "typeRoots": [
             "node_modules/@types",
@@ -18,7 +16,6 @@
         "esModuleInterop": true
     },
     "include": [
-        "src/**/*",
-        "typings/usage-parser/index.d.ts", "test/integration.test-old.ts", "test/client.test.ts"
+        "src/**/*", "typings/usage-parser/index.d.ts"
     ]
 }

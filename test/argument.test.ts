@@ -3,7 +3,7 @@ import { expect, assert } from 'chai';
 import {Arg} from './../src/models/arg';
 import {ArgType} from './../src/types/argTypes';
 import * as sinon from 'sinon';
-
+import './../src/extensions/string';
 
 describe('Arguments', () => {
     it('names', () => {
