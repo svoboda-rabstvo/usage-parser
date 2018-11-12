@@ -9,6 +9,5 @@ RUN npm run log
 COPY . /app
 
 RUN npm install
-
 RUN npm run lint
 RUN npm run test

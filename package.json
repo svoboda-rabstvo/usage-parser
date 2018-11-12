@@ -6,10 +6,7 @@
     "license": "MIT",
     "repository": "linterhub/usage-parser",
     "bugs": "https://github.com/linterhub/usage-parser/issues",
-    "bin": {
-        "usage-parser": "bin.js"
-    },
-    "main": "./src/index.js",
+
     "scripts": {
         "jsdoc2md": "./node_modules/.bin/jsdoc2md",
         "ts-node": "./node_modules/mocha/bin/ts-node",
