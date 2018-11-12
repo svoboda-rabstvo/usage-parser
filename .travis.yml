@@ -3,6 +3,7 @@ node_js: "10"
 install: npm install
 script:
  - npm run build
+ - npm run mocha:v
 
 jobs:
   include:

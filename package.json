@@ -17,6 +17,7 @@
         "build": "tsc -p .",
         "lint": "tslint -c tslint.json --project . -t codeFrame",
         "test": "nyc mocha -r ts-node/register ./test/*.test.ts",
+        "mocha:v": "mocha -V",
         "doc": "jsdoc2md --files ./src/**/*.ts --configure ./config/jsdoc2md.json > ./doc/API.md",
         "semantic-release": "semantic-release"
     },
