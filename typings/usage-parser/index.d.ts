@@ -1,6 +1,6 @@
 // index.d.ts
-
-interface String {
+export {}
+declare interface String {
        /**
      * Unify string. Use trim and create first letter to uppercase.
      * @return {string} - The unified string
@@ -28,7 +28,7 @@ interface String {
     firstMatch(line: string | undefined): string | undefined;
 }
 
-interface StringConstructor {
+declare interface StringConstructor {
     /** Empty string */
     Empty: string;
 }
